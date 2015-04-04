@@ -1,0 +1,101 @@
+/* Carousel stuff */
+
+.carousel-container {
+
+	max-width: 100%;
+	position: relative;
+}
+
+.carousel-content {
+
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.carousel-item {
+
+	position: relative;
+}
+
+.carousel-text {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 25%;
+	padding: 1rem;
+	background: rgba(255, 255, 255, 0.5);
+	margin: 0;
+}
+
+.carousel-container img {
+
+	max-width: 100%;
+}
+
+.carousel-button {
+
+	border: none;
+	border-radius: 50%;
+	background-color: #ccc;
+	background-size: contain;
+	height: 2rem;
+	width: 2rem;
+	position: absolute;
+	text-indent: -99999px;
+	z-index: 999;
+}
+.carousel-previous, .carousel-next {
+
+	margin-top: -1rem;
+	top: 50%;
+}
+
+.carousel-previous {
+
+	background-image: url("img/arrow-left.svg");
+	left: -1rem;
+}
+
+.carousel-next {
+
+	background-image: url("img/arrow-right.svg");
+	right: -1rem;
+}
+
+.carousel-play, .carousel-pause {
+
+	bottom: .5rem;
+	left: 50%;
+	margin-left: -1rem;
+}
+
+.carousel-play {
+
+	background-image: url("img/play.svg");
+	transform: translateX(1.5rem);
+}
+
+.carousel-pause {
+
+	background-image: url("img/pause.svg");
+	transform: translateX(-1.5rem);
+}
+
+
+.carousel-content[aria-hidden='true'] {
+
+	display: none;
+}
+
+.carousel-content[aria-hidden='false'] {
+
+	display: block;
+
+}
+
+.is-hidden {
+
+	display: none;
+}

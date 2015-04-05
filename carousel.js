@@ -5,22 +5,26 @@
   var IS_PLAYING_CLASS = "is-playing";
   var IS_PAUSED_CLASS = "is-paused";
 
+  /**
+   *
+   * @type {{init: Function, _initializeUI: Function, resume: Function, pause: Function, previousSlide: Function, nextSlide: Function, _showCurrent: Function}}
+   */
   var Carousel = {
 
+    /**
+     * @descritpion Initializes carousel.
+     * @param $context jQuery DOM context for widget
+     * @returns {Carousel}
+     */
     init: function( $context ){
 
       this._$context = $context;
-
+      var delayInSeconds = this._$context.data("delay");
+      this.timeBetweenSlides = (typeof delayInSeconds === "number") ? ( delayInSeconds * 1000 ) : 4000;
       this.interval = null;
-      this.timeBetweenSlides = 4000; // 4 seconds
       this.currentslide = 1;
-      this.numslides = 3; //put how many slides you have here.
-
+      this.numslides = this._$context.find(".carousel-item").length;
       this._initializeUI();
-
-
-      //Autoplay
-      //$context.find("button" + NAME_SPACE + "play").click();
 
       return this;
     },
@@ -34,27 +38,39 @@
       this._$context.find(NAME_SPACE + "pause").click(this.pause.bind(this));
       this._$context.find(NAME_SPACE + "play").click(this.resume.bind(this));
 
-      // add keyboard accessibility for all buttons, enter makes it click...
-      this._$context.find(NAME_SPACE + "button").keypress(function (ev) {
+      // Add keyboard accessibility for all buttons, enter makes it click...
+      var handleButtonClick = function (ev) {
         if (ev.which == 13) {
           $(this).click();
           ev.preventDefault();
           return (false);
         }
-      });
+      };
+
+      this._$context.find(NAME_SPACE + "button").keypress(handleButtonClick);
+
+      if( this._$context.data("autoplay") === true ){
+
+        this.resume();
+      }
     },
 
+    /**
+     * @description Resumes playing the carousel
+     */
     resume: function(){
 
       this._$context.removeClass( IS_PAUSED_CLASS).addClass( IS_PLAYING_CLASS );
 
-      this._$context.find(NAME_SPACE + "next").click();
-
       this.interval= window.setInterval(function () {
-        this._$context.find(NAME_SPACE + "next").click();
+        this.currentslide = this.currentslide + 1;
+        this._showCurrent();
       }.bind(this), this.timeBetweenSlides);
     },
 
+    /**
+     * @description Pauses exectuion of the carousel
+     */
     pause: function(ev){
 
       this._$context.addClass( IS_PAUSED_CLASS).removeClass( IS_PLAYING_CLASS );
@@ -64,21 +80,34 @@
       return false;
     },
 
-    previousSlide: function(){
+    /**
+     * @description Pauses execution and shifts carousel to previous slide
+     */
+    previousSlide: function(ev){
+
+      this.pause(ev);
 
       this.currentslide = this.currentslide - 1;
-      this.showCurrent();
+      this._showCurrent();
     },
 
-    nextSlide: function(){
+    /**
+     * @description Pauses execution and shifts carousel to next slide
+     */
+    nextSlide: function(ev){
+
+      this.pause(ev);
 
       this.currentslide = this.currentslide + 1;
-      this.showCurrent();
+      this._showCurrent();
     },
 
-    showCurrent: function(){
+    /**
+     * @description Manipulates the DOM to hide and show the appropriate slide
+     */
+    _showCurrent: function(){
 
-      this._$context.find("li.carousel-item").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
+      this._$context.find(".carousel-item").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
 
       if (this.currentslide > this.numslides) {
         this.currentslide = 1;
@@ -89,7 +118,7 @@
 
       var slide = this.currentslide - 1;
 
-      this._$context.find("li.carousel-item:eq(" + slide + ")").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
+      this._$context.find(".carousel-item:eq(" + slide + ")").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
     }
   };
 

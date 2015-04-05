@@ -34,9 +34,10 @@ add_shortcode( "carousel", "accessible_carousel" );
 
 function accessible_carousel( $atts, $content = NULL ) {
 
+	extract( shortcode_atts( array( 'autoplay' => 'false', 'delay' => null ), $atts ) );
 	$uniqueId = uniqid("carousel-");
 
-	$output = '<section class="carousel-container">';
+	$output = '<section class="carousel-container" data-autoplay="' . $autoplay . '" data-delay="' . $delay . '">';
 	$output .= '<ul class="carousel-content" aria-live="polite" id="' . $uniqueId .'">';
 	$output .= do_shortcode( $content );
 	$output .= '</ul>';

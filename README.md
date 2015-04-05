@@ -13,13 +13,13 @@ Example:
 
 [carousel]
 [carousel_item]
-<img src="/path/to/image/1" alt="Alt text 1" />
+    &lt;img src="/path/to/image/1" alt="Alt text 1" /&gt;
 [/carousel_item]
 [carousel_item]
-<img src="/path/to/image/2" alt="Alt text 2" />
+    &lt;img src="/path/to/image/2" alt="Alt text 2" /&gt;
 [/carousel_item]
 [carousel_item]
-<img src="/path/to/image/3" alt="Alt text 3" />
+    &lt;img src="/path/to/image/3" alt="Alt text 3" /&gt;
 [/carousel_item]
 [/carousel]
 </pre>

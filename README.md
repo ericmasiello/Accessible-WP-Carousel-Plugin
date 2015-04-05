@@ -9,7 +9,7 @@ Then, between carousel opening and closing tag, insert a `[carousel_item]` along
 Example:
 
 
-`Some random content.
+<pre>Some random content.
 
 [carousel]
 [carousel_item]
@@ -21,7 +21,8 @@ Example:
 [carousel_item]
 <img src="/path/to/image/3" alt="Alt text 3" />
 [/carousel_item]
-[/carousel]`
+[/carousel]
+</pre>
 
 ## Shortcode properties
 

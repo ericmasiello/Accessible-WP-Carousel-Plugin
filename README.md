@@ -4,12 +4,12 @@
 
 To create an accessible carousel, inside of a post or page insert a `[carousel]` shortcode tag with a corresponding closing `[/carousel]` tag.
 
-Then, between carousel opening and closing tag, insert a `[carousel_item]` along with the closing `[/carousel_item]` for each image/content area you would like to appear in your carousel. Insert your images between the  carousel_item tags.
+Then, between the carousel opening and closing tags, insert a `[carousel_item]` along with a closing `[/carousel_item]` for each image/content area you would like to appear in your carousel. Insert your images between the  carousel_item tags.
 
 Example:
 
 
-<pre>Some random content.
+<pre>Some random content that will appear before your carousel.
 
 [carousel]
     [carousel_item]
@@ -22,19 +22,21 @@ Example:
         &lt;img src="/path/to/image/3" alt="Alt text 3" /&gt;
     [/carousel_item]
 [/carousel]
+
+Some random content that will appear after your carousel.
 </pre>
 
 ## Shortcode properties
 
-### carousel properties
+### `[carousel]` properties
 
 #### Autoplay
 By default, your carousel will not automatically start playing. If you would like it to, add the `autoplay=true` attribute to the opening carousel tag. Example: `[carousel autoplay=true]`.
 
 #### Delay
-By default, your carousel will have a delay of 4 seconds between each slide once you start playing. If you wish to change that value, set the `delay` attribute to the number of seconds you wish to use. Example: `[carousel delay=3]` (delay of 3 seconds).
+By default, your carousel will have a delay of 4 seconds between each slide once it has started playing. If you wish to change that value, set the `delay` attribute to the number of seconds you wish to use. Example: `[carousel delay=3]` (delay of 3 seconds).
 
-### carousel_item properties
+### `[carousel_item]` properties
 
 #### Overlay text
 You can overlay text on top of your slide's image by setting the `text` attribute. Example: `[carousel_item text="This message will appear on top of my image"]...[/carousel_item]`

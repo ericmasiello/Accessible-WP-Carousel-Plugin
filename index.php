@@ -38,12 +38,16 @@ function accessible_carousel( $atts, $content = NULL ) {
 	$uniqueId = uniqid("carousel-");
 
 	$ariaHiddenPause = "true";
+	$cssClassPause = "is-hidden";
 	$ariaHiddenPlay = "false";
+	$cssClassPlay = "";
 
 	if( $autoplay == "true" ){
 
 		$ariaHiddenPause = "false";
+		$cssClassPause = "";
 		$ariaHiddenPlay = "true";
+		$cssClassPlay = "is-hidden";
 	}
 
 	$output = '<section class="carousel-container" data-autoplay="' . $autoplay . '" data-delay="' . $delay . '">';
@@ -51,8 +55,8 @@ function accessible_carousel( $atts, $content = NULL ) {
 	$output .= do_shortcode( $content );
 	$output .= '</ul>';
 	$output .= '<fieldset aria-label="carousel buttons" class="carousel-buttons" aria-controls="' . $uniqueId .'">';
-    $output .= '<input type="button" value="Pause" aria-hidden="' . $ariaHiddenPause . '" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause" />';
-    $output .= '<input type="button" value="Play" aria-hidden="' . $ariaHiddenPlay . '" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play" />';
+    $output .= '<input type="button" value="Pause" aria-hidden="' . $ariaHiddenPause . '" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause ' . $cssClassPause . '" />';
+    $output .= '<input type="button" value="Play" aria-hidden="' . $ariaHiddenPlay . '" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play ' . $cssClassPlay . '" />';
     $output .= '<button value="prev" aria-label="previous" id="' . $uniqueId . '-previous" class="carousel-button  carousel-previous">Previous</button>';
     $output .= '<button value="next" id="' . $uniqueId . '-next" aria-label="next" class="carousel-button  carousel-next">Next</button>';
     $output .= '</fieldset>';

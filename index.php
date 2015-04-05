@@ -19,10 +19,13 @@ wp_enqueue_style( 'accessible-carousel-css', plugins_url( '/carousel.css', __FIL
 wp_enqueue_script( 'accessible-carousel-js', plugins_url( '/carousel.js', __FILE__ ), array('jquery'), NULL, true );
 
 function accessible_carousel_item( $atts, $content = NULL ) {
-	extract( shortcode_atts( array( 'text' => '' ), $atts ) );
+	extract( shortcode_atts( array( 'text' => '', 'align' => 'left' ), $atts ) );
 	$output = '';
 	$output .= '<li aria-hidden="false" class="carousel-item" id="item-1">';
-	$output .= '<p class="carousel-text">' . $text . '</p>';
+	if( strlen( $text ) > 0 ) {
+
+		$output .= '<p class="carousel-text ' . $align . '">' . $text . '</p>';
+	}
 	$output .= do_shortcode( $content );
 	$output .= '</li>';
 

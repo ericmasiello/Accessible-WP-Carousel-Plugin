@@ -1,0 +1,27 @@
+{
+  "name": "Accessible-WP-Carousel-Plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "carousel.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericmasiello/Accessible-WP-Carousel-Plugin"
+  },
+  "keywords": [
+    "jQuery",
+    "Wordpress",
+    "accessibility"
+  ],
+  "author": "Eric Masiello",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericmasiello/Accessible-WP-Carousel-Plugin/issues"
+  },
+  "homepage": "https://github.com/ericmasiello/Accessible-WP-Carousel-Plugin",
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}

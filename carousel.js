@@ -2,25 +2,27 @@
 
   var NAME_SPACE = ".carousel-";
   var HIDDEN_CSS_CLASS = "is-hidden";
-  var IS_PLAYING_CLASS = "is-playing";
-  var IS_PAUSED_CLASS = "is-paused";
 
+  /**
+   *
+   * @type {{init: Function, _initializeUI: Function, resume: Function, pause: Function, previousSlide: Function, nextSlide: Function, _showCurrent: Function}}
+   */
   var Carousel = {
 
+    /**
+     * @descritpion Initializes carousel.
+     * @param $context jQuery DOM context for widget
+     * @returns {Carousel}
+     */
     init: function( $context ){
 
       this._$context = $context;
-
+      var delayInSeconds = this._$context.data("delay");
+      this.timeBetweenSlides = (typeof delayInSeconds === "number") ? ( delayInSeconds * 1000 ) : 4000;
       this.interval = null;
-      this.timeBetweenSlides = 4000; // 4 seconds
       this.currentslide = 1;
-      this.numslides = 3; //put how many slides you have here.
-
+      this.numslides = this._$context.find(".carousel-item").length;
       this._initializeUI();
-
-
-      //Autoplay
-      //$context.find("button" + NAME_SPACE + "play").click();
 
       return this;
     },
@@ -34,51 +36,97 @@
       this._$context.find(NAME_SPACE + "pause").click(this.pause.bind(this));
       this._$context.find(NAME_SPACE + "play").click(this.resume.bind(this));
 
-      // add keyboard accessibility for all buttons, enter makes it click...
-      this._$context.find(NAME_SPACE + "button").keypress(function (ev) {
+      // Add keyboard accessibility for all buttons, enter makes it click...
+      var handleButtonClick = function (ev) {
         if (ev.which == 13) {
           $(this).click();
           ev.preventDefault();
           return (false);
         }
-      });
+      };
+
+      this._$context.find(NAME_SPACE + "button").keypress(handleButtonClick);
+
+      if( this._$context.data("autoplay") === true ){
+
+        this.resume();
+      }
     },
 
-    resume: function(){
+    /**
+     * @description Resumes playing the carousel
+     */
+    resume: function(ev){
 
-      this._$context.removeClass( IS_PAUSED_CLASS).addClass( IS_PLAYING_CLASS );
+      this._$context.find(NAME_SPACE + "pause").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
+      this._$context.find(NAME_SPACE + "play").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
 
-      this._$context.find(NAME_SPACE + "next").click();
+      if( ev && ( ev.type === "click" || ev.type === "keypress") ){
+
+        //Set focus to the pause button now that the play button is hidden
+        this._$context.find(NAME_SPACE + "pause").focus();
+      }
 
       this.interval= window.setInterval(function () {
-        this._$context.find(NAME_SPACE + "next").click();
+        this.currentslide = this.currentslide + 1;
+        this._showCurrent();
       }.bind(this), this.timeBetweenSlides);
     },
 
-    pause: function(ev){
+    /**
+     * @description Pauses execution of the carousel
+     * @param ev jQuery event
+     * @param ignoreSettingFocusToPlayButton optional parameter that can be used to NOT set the focus to the play button
+     * @returns {boolean}
+     */
+    pause: function(ev, ignoreSettingFocusToPlayButton){
 
-      this._$context.addClass( IS_PAUSED_CLASS).removeClass( IS_PLAYING_CLASS );
+      ignoreSettingFocusToPlayButton = (typeof ignoreSettingFocusToPlayButton === "boolean" ) ? ignoreSettingFocusToPlayButton : false;
+
+      this._$context.find(NAME_SPACE + "pause").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
+      this._$context.find(NAME_SPACE + "play").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
+
+      if( ev && ( ev.type === "click" || ev.type === "keypress") && ignoreSettingFocusToPlayButton === false ){
+
+        //Set focus to the play button now that the pause button is hidden
+        this._$context.find(NAME_SPACE + "play").focus();
+      }
 
       this.interval = window.clearInterval(this.interval);
       ev.preventDefault();
       return false;
     },
 
-    previousSlide: function(){
+    /**
+     * @description Pauses execution and shifts carousel to previous slide
+     * @param ev jQuery event object
+     */
+    previousSlide: function(ev){
+
+      this.pause(ev, true);
 
       this.currentslide = this.currentslide - 1;
-      this.showCurrent();
+      this._showCurrent();
     },
 
-    nextSlide: function(){
+    /**
+     * @description Pauses execution and shifts carousel to next slide
+     * @param ev jQuery event object
+     */
+    nextSlide: function(ev){
+
+      this.pause(ev, true);
 
       this.currentslide = this.currentslide + 1;
-      this.showCurrent();
+      this._showCurrent();
     },
 
-    showCurrent: function(){
+    /**
+     * @description Manipulates the DOM to hide and show the appropriate slide
+     */
+    _showCurrent: function(){
 
-      this._$context.find("li.carousel-item").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
+      this._$context.find(".carousel-item").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
 
       if (this.currentslide > this.numslides) {
         this.currentslide = 1;
@@ -89,7 +137,7 @@
 
       var slide = this.currentslide - 1;
 
-      this._$context.find("li.carousel-item:eq(" + slide + ")").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
+      this._$context.find(".carousel-item:eq(" + slide + ")").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
     }
   };
 

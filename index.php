@@ -19,10 +19,13 @@ wp_enqueue_style( 'accessible-carousel-css', plugins_url( '/carousel.css', __FIL
 wp_enqueue_script( 'accessible-carousel-js', plugins_url( '/carousel.js', __FILE__ ), array('jquery'), NULL, true );
 
 function accessible_carousel_item( $atts, $content = NULL ) {
-	extract( shortcode_atts( array( 'text' => '' ), $atts ) );
+	extract( shortcode_atts( array( 'text' => '', 'align' => 'left' ), $atts ) );
 	$output = '';
 	$output .= '<li aria-hidden="false" class="carousel-item" id="item-1">';
-	$output .= '<p class="carousel-text">' . $text . '</p>';
+	if( strlen( $text ) > 0 ) {
+
+		$output .= '<p class="carousel-text ' . $align . '">' . $text . '</p>';
+	}
 	$output .= do_shortcode( $content );
 	$output .= '</li>';
 
@@ -34,17 +37,31 @@ add_shortcode( "carousel", "accessible_carousel" );
 
 function accessible_carousel( $atts, $content = NULL ) {
 
+	extract( shortcode_atts( array( 'autoplay' => 'false', 'delay' => null ), $atts ) );
 	$uniqueId = uniqid("carousel-");
 
-	$output = '<section class="carousel-container">';
+	$ariaHiddenPause = "true";
+	$cssClassPause = "is-hidden";
+	$ariaHiddenPlay = "false";
+	$cssClassPlay = "";
+
+	if( $autoplay == "true" ){
+
+		$ariaHiddenPause = "false";
+		$cssClassPause = "";
+		$ariaHiddenPlay = "true";
+		$cssClassPlay = "is-hidden";
+	}
+
+	$output = '<section class="carousel-container" data-autoplay="' . $autoplay . '" data-delay="' . $delay . '">';
 	$output .= '<ul class="carousel-content" aria-live="polite" id="' . $uniqueId .'">';
 	$output .= do_shortcode( $content );
 	$output .= '</ul>';
 	$output .= '<fieldset aria-label="carousel buttons" class="carousel-buttons" aria-controls="' . $uniqueId .'">';
-    $output .= '<input type="button" value="Pause" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause" />';
-    $output .= '<input type="button" value="Play" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play" />';
-    $output .= '<button value="prev" aria-label="previous" id="' . $uniqueId . '-previous" class="carousel-button  carousel-previous">Previous</button>';
-    $output .= '<button value="next" id="' . $uniqueId . '-next" aria-label="next" class="carousel-button  carousel-next">Next</button>';
+    $output .= '<input type="button" value="Pause" aria-hidden="' . $ariaHiddenPause . '" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause ' . $cssClassPause . '" />';
+    $output .= '<input type="button" value="Play" aria-hidden="' . $ariaHiddenPlay . '" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play ' . $cssClassPlay . '" />';
+    $output .= '<input type="button" value="Previous" aria-label="previous" id="' . $uniqueId . '-previous" class="carousel-button  carousel-previous" />';
+    $output .= '<input type="button" value="Next" id="' . $uniqueId . '-next" aria-label="next" class="carousel-button  carousel-next" />';
     $output .= '</fieldset>';
     $output .= '</section>';
 

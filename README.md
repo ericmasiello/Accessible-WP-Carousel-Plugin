@@ -1,5 +1,9 @@
 # Accessible-WP-Carousel-Plugin
 
+This code is based off the work done by <a href="http://accessibility.athena-ict.com/aria/examples/carousel.shtml">http://accessibility.athena-ict.com/aria/examples/carousel.shtml</a>. The controls are keyboard accessible and the carousel uses ARIA attributes.
+
+The icons used are bass odd icons created by <a href="https://thenounproject.com/chapmanjw/">John Chapman</a>.
+
 ## Shortcodes
 
 To create an accessible carousel, inside of a post or page insert a `[carousel]` shortcode tag with a corresponding closing `[/carousel]` tag.

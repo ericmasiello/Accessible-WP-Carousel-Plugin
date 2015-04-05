@@ -8,7 +8,9 @@ Author: Eric Masiello
 Author URI: http://www.synbydesign.com
 License: GPL
 Copyright: Eric Masiello
-Credit: Shouts to John Chapman (https://thenounproject.com/chapmanjw/) for the icons
+Credit: Shouts to John Chapman (https://thenounproject.com/chapmanjw/) for the icons and
+	shouts to http://accessibility.athena-ict.com/aria/examples/carousel.shtml for the code that
+	inspired this
 */
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -35,16 +37,14 @@ function accessible_carousel( $atts, $content = NULL ) {
 	$uniqueId = uniqid("carousel-");
 
 	$output = '<section class="carousel-container">';
-	//FIXME: id must be dynamically generated
 	$output .= '<ul class="carousel-content" aria-live="polite" id="' . $uniqueId .'">';
 	$output .= do_shortcode( $content );
 	$output .= '</ul>';
-	//FIXME: aria-controls must point to dynamically generated id
 	$output .= '<fieldset aria-label="carousel buttons" class="carousel-buttons" aria-controls="' . $uniqueId .'">';
-    $output .= '<button value="pause" id="pause" aria-label="pause" class="carousel-button  carousel-pause">Pause</button>';
-    $output .= '<button value="go" id="go" class="carousel-button  carousel-play">Play</button>';
-    $output .= '<button value="prev" aria-label="previous" id="prev" class="carousel-button  carousel-previous">Previous</button>';
-    $output .= '<button value="next" id="next" aria-label="next" class="carousel-button  carousel-next">Next</button>';
+    $output .= '<input type="button" value="Pause" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause" />';
+    $output .= '<input type="button" value="Play" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play" />';
+    $output .= '<button value="prev" aria-label="previous" id="' . $uniqueId . '-previous" class="carousel-button  carousel-previous">Previous</button>';
+    $output .= '<button value="next" id="' . $uniqueId . '-next" aria-label="next" class="carousel-button  carousel-next">Next</button>';
     $output .= '</fieldset>';
     $output .= '</section>';
 
@@ -60,7 +60,4 @@ add_shortcode( "carousel_item", "accessible_carousel_item" );
 remove_filter( 'the_content', 'wpautop' );
 add_filter( 'the_content', 'wpautop', 99 );
 add_filter( 'the_content', 'shortcode_unautop', 100 );
-
-
-
 ?>

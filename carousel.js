@@ -2,17 +2,21 @@
 
   var NAME_SPACE = ".carousel-";
   var HIDDEN_CSS_CLASS = "is-hidden";
+  var IS_PLAYING_CLASS = "is-playing";
+  var IS_PAUSED_CLASS = "is-paused";
 
   var Carousel = {
 
     init: function( $context ){
+
+      this._$context = $context;
 
       this.interval = null;
       this.timeBetweenSlides = 4000; // 4 seconds
       this.currentslide = 1;
       this.numslides = 3; //put how many slides you have here.
 
-      this._initializeUI($context);
+      this._initializeUI();
 
 
       //Autoplay
@@ -21,17 +25,17 @@
       return this;
     },
 
-    _initializeUI: function($context){
+    _initializeUI: function(){
 
-      $context.find(".carousel-item").not(":nth-of-type(1)").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
+      this._$context.find(".carousel-item").not(":nth-of-type(1)").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
 
-      $context.find("button" + NAME_SPACE + "next").click(this.nextSlide.bind(this));
-      $context.find("button" + NAME_SPACE + "previous").click(this.previousSlide.bind(this));
-      $context.find("button" + NAME_SPACE + "pause").click(this.pause.bind(this));
-      $context.find("button" + NAME_SPACE + "play").click(this.resume.bind(this));
+      this._$context.find(NAME_SPACE + "next").click(this.nextSlide.bind(this));
+      this._$context.find(NAME_SPACE + "previous").click(this.previousSlide.bind(this));
+      this._$context.find(NAME_SPACE + "pause").click(this.pause.bind(this));
+      this._$context.find(NAME_SPACE + "play").click(this.resume.bind(this));
 
       // add keyboard accessibility for all buttons, enter makes it click...
-      $context.find("button").keypress(function (ev) {
+      this._$context.find(NAME_SPACE + "button").keypress(function (ev) {
         if (ev.which == 13) {
           $(this).click();
           ev.preventDefault();
@@ -41,12 +45,20 @@
     },
 
     resume: function(){
+
+      this._$context.removeClass( IS_PAUSED_CLASS).addClass( IS_PLAYING_CLASS );
+
+      this._$context.find(NAME_SPACE + "next").click();
+
       this.interval= window.setInterval(function () {
-        $("button#next").click();
-      }, this.timeBetweenSlides);
+        this._$context.find(NAME_SPACE + "next").click();
+      }.bind(this), this.timeBetweenSlides);
     },
 
     pause: function(ev){
+
+      this._$context.addClass( IS_PAUSED_CLASS).removeClass( IS_PLAYING_CLASS );
+
       this.interval = window.clearInterval(this.interval);
       ev.preventDefault();
       return false;
@@ -66,7 +78,7 @@
 
     showCurrent: function(){
 
-      $("li.carousel-item").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
+      this._$context.find("li.carousel-item").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
 
       if (this.currentslide > this.numslides) {
         this.currentslide = 1;
@@ -77,7 +89,7 @@
 
       var slide = this.currentslide - 1;
 
-      $("li.carousel-item:eq(" + slide + ")").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
+      this._$context.find("li.carousel-item:eq(" + slide + ")").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
     }
   };
 
@@ -90,67 +102,5 @@
 
     $(".carousel-container").each(initCarousel);
   });
-
-  //$(document).ready(function () {
-  //
-  //  var myVar;//will be interval timer
-  //  var transition_time = 1000, // 1 second
-  //    time_between_slides = 4000, // 4 seconds
-  //    currentslide = 1,
-  //    numslides = 3; //put how many slides you have here.
-  //
-  //  myVar = setInterval(function () {
-  //    $("button#next").click()
-  //  }, time_between_slides); // every 4 secs next slide
-  //
-  //  function showcurrent() {
-  //
-  //    $("li.carousel-item").attr("aria-hidden", "true").addClass("hidden");
-  //
-  //    if (currentslide > numslides) {
-  //      currentslide = 1;
-  //    }
-  //    if (currentslide === 0) {
-  //      currentslide = numslides;
-  //    }
-  //
-  //    var slide = currentslide - 1;
-  //
-  //    $("li.carousel-item:eq(" + slide + ")").attr("aria-hidden", "false").removeClass("hidden");
-  //  }
-  //
-  //  $("button#next").click(function () {
-  //    currentslide = currentslide + 1;
-  //    showcurrent();
-  //  });
-  //
-  //  $("button#prev").click(function () {
-  //    currentslide = currentslide - 1;
-  //    showcurrent();
-  //  });
-  //
-  //
-  //  $("button#pause").click(function (ev) {
-  //    myVar = window.clearInterval(myVar);
-  //    ev.preventDefault();
-  //    return (false);
-  //  });
-  //
-  //  $("button#go").click(function () {
-  //    myVar = window.setInterval(function () {
-  //      $("button#next").click()
-  //    }, time_between_slides);
-  //  });
-  //
-  //  // add keyboard accessibility for all buttons, enter makes it click...
-  //  $("button").keypress(function (ev) {
-  //    if (ev.which == 13) {
-  //      $(this).click();
-  //      ev.preventDefault();
-  //      return (false);
-  //    }
-  //  });
-  //
-  //});
 
 })(jQuery);

@@ -36,16 +36,24 @@
 
 .carousel-button {
 
-	border: none;
+	border: .1rem solid #ccc;
 	border-radius: 50%;
 	background-color: #ccc;
 	background-size: contain;
+	display: inline-block;
 	height: 2rem;
 	width: 2rem;
 	position: absolute;
+	transition: transform .25s;
 	text-indent: -99999px;
 	z-index: 999;
 }
+
+.carousel-button:hover {
+
+	transform: scale(1.25);
+}
+
 .carousel-previous, .carousel-next {
 
 	margin-top: -1rem;
@@ -74,13 +82,26 @@
 .carousel-play {
 
 	background-image: url("img/play.svg");
-	transform: translateX(1.5rem);
+	z-index: 2;
 }
 
 .carousel-pause {
 
 	background-image: url("img/pause.svg");
-	transform: translateX(-1.5rem);
+	visibility: hidden;
+	z-index: 1;
+}
+
+.is-playing .carousel-play {
+
+	visibility: hidden;
+	z-index: 1;
+}
+
+.is-playing .carousel-pause {
+
+	visibility: visible;
+	z-index: 2;
 }
 
 

@@ -48,6 +48,7 @@ You can overlay text on top of your slide's image by setting the `text` attribut
 #### Overlay text alignment
 By default, any text set using the `text` attribute will align to the left. If you wish to set the text to align to the right, simply set both the `text` and `align` properties. Example: `[carousel_item text="I will be to the right" align="right"]...[/carousel_item]`
 
+## Using custom icons
 
-
+The icons used are set using SVGs as background images. To use custom icons, override the default values in your styles.css for the following CSS selectors: `.carousel-previous'`, `.carousel-next`, `.carousel-play'`, and `.carousel-pause`.
 

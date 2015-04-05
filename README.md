@@ -21,7 +21,7 @@ Example:
 [carousel_item]
 <img src="/path/to/image/3" alt="Alt text 3" />
 [/carousel_item]
-[/carousel]
+[/carousel]`
 
 ## Shortcode properties
 

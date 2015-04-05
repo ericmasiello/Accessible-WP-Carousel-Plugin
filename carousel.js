@@ -58,9 +58,15 @@
     /**
      * @description Resumes playing the carousel
      */
-    resume: function(){
+    resume: function(ev){
 
       this._$context.removeClass( IS_PAUSED_CLASS).addClass( IS_PLAYING_CLASS );
+
+      if( ev && ( ev.type === "click" || ev.type === "keypress") ){
+
+        //Set focus to the pause button now that the play button is hidden
+        this._$context.find(NAME_SPACE + "pause").focus();
+      }
 
       this.interval= window.setInterval(function () {
         this.currentslide = this.currentslide + 1;
@@ -69,11 +75,22 @@
     },
 
     /**
-     * @description Pauses exectuion of the carousel
+     * @description Pauses execution of the carousel
+     * @param ev jQuery event
+     * @param ignoreSettingFocusToPlayButton optional parameter that can be used to NOT set the focus to the play button
+     * @returns {boolean}
      */
-    pause: function(ev){
+    pause: function(ev, ignoreSettingFocusToPlayButton){
+
+      ignoreSettingFocusToPlayButton = (typeof ignoreSettingFocusToPlayButton === "boolean" ) ? ignoreSettingFocusToPlayButton : false;
 
       this._$context.addClass( IS_PAUSED_CLASS).removeClass( IS_PLAYING_CLASS );
+
+      if( ev && ( ev.type === "click" || ev.type === "keypress") && ignoreSettingFocusToPlayButton === false ){
+
+        //Set focus to the play button now that the pause button is hidden
+        this._$context.find(NAME_SPACE + "play").focus();
+      }
 
       this.interval = window.clearInterval(this.interval);
       ev.preventDefault();
@@ -85,7 +102,7 @@
      */
     previousSlide: function(ev){
 
-      this.pause(ev);
+      this.pause(ev, true);
 
       this.currentslide = this.currentslide - 1;
       this._showCurrent();
@@ -96,7 +113,7 @@
      */
     nextSlide: function(ev){
 
-      this.pause(ev);
+      this.pause(ev, true);
 
       this.currentslide = this.currentslide + 1;
       this._showCurrent();

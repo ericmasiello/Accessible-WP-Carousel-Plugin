@@ -37,13 +37,22 @@ function accessible_carousel( $atts, $content = NULL ) {
 	extract( shortcode_atts( array( 'autoplay' => 'false', 'delay' => null ), $atts ) );
 	$uniqueId = uniqid("carousel-");
 
+	$ariaHiddenPause = "true";
+	$ariaHiddenPlay = "false";
+
+	if( $autoplay == "true" ){
+
+		$ariaHiddenPause = "false";
+		$ariaHiddenPlay = "true";
+	}
+
 	$output = '<section class="carousel-container" data-autoplay="' . $autoplay . '" data-delay="' . $delay . '">';
 	$output .= '<ul class="carousel-content" aria-live="polite" id="' . $uniqueId .'">';
 	$output .= do_shortcode( $content );
 	$output .= '</ul>';
 	$output .= '<fieldset aria-label="carousel buttons" class="carousel-buttons" aria-controls="' . $uniqueId .'">';
-    $output .= '<input type="button" value="Pause" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause" />';
-    $output .= '<input type="button" value="Play" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play" />';
+    $output .= '<input type="button" value="Pause" aria-hidden="' . $ariaHiddenPause . '" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause" />';
+    $output .= '<input type="button" value="Play" aria-hidden="' . $ariaHiddenPlay . '" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play" />';
     $output .= '<button value="prev" aria-label="previous" id="' . $uniqueId . '-previous" class="carousel-button  carousel-previous">Previous</button>';
     $output .= '<button value="next" id="' . $uniqueId . '-next" aria-label="next" class="carousel-button  carousel-next">Next</button>';
     $output .= '</fieldset>';

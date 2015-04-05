@@ -2,8 +2,6 @@
 
   var NAME_SPACE = ".carousel-";
   var HIDDEN_CSS_CLASS = "is-hidden";
-  var IS_PLAYING_CLASS = "is-playing";
-  var IS_PAUSED_CLASS = "is-paused";
 
   /**
    *
@@ -60,7 +58,8 @@
      */
     resume: function(ev){
 
-      this._$context.removeClass( IS_PAUSED_CLASS).addClass( IS_PLAYING_CLASS );
+      this._$context.find(NAME_SPACE + "pause").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
+      this._$context.find(NAME_SPACE + "play").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
 
       if( ev && ( ev.type === "click" || ev.type === "keypress") ){
 
@@ -84,7 +83,8 @@
 
       ignoreSettingFocusToPlayButton = (typeof ignoreSettingFocusToPlayButton === "boolean" ) ? ignoreSettingFocusToPlayButton : false;
 
-      this._$context.addClass( IS_PAUSED_CLASS).removeClass( IS_PLAYING_CLASS );
+      this._$context.find(NAME_SPACE + "pause").attr("aria-hidden", "true").addClass( HIDDEN_CSS_CLASS );
+      this._$context.find(NAME_SPACE + "play").attr("aria-hidden", "false").removeClass( HIDDEN_CSS_CLASS );
 
       if( ev && ( ev.type === "click" || ev.type === "keypress") && ignoreSettingFocusToPlayButton === false ){
 
@@ -99,6 +99,7 @@
 
     /**
      * @description Pauses execution and shifts carousel to previous slide
+     * @param ev jQuery event object
      */
     previousSlide: function(ev){
 
@@ -110,6 +111,7 @@
 
     /**
      * @description Pauses execution and shifts carousel to next slide
+     * @param ev jQuery event object
      */
     nextSlide: function(ev){
 

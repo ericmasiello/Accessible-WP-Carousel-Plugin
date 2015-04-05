@@ -88,20 +88,7 @@
 .carousel-pause {
 
 	background-image: url("img/pause.svg");
-	visibility: hidden;
 	z-index: 1;
-}
-
-.is-playing .carousel-play {
-
-	visibility: hidden;
-	z-index: 1;
-}
-
-.is-playing .carousel-pause {
-
-	visibility: visible;
-	z-index: 2;
 }
 
 

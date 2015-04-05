@@ -57,8 +57,8 @@ function accessible_carousel( $atts, $content = NULL ) {
 	$output .= '<fieldset aria-label="carousel buttons" class="carousel-buttons" aria-controls="' . $uniqueId .'">';
     $output .= '<input type="button" value="Pause" aria-hidden="' . $ariaHiddenPause . '" id="' . $uniqueId . '-pause" aria-label="pause" class="carousel-button carousel-pause ' . $cssClassPause . '" />';
     $output .= '<input type="button" value="Play" aria-hidden="' . $ariaHiddenPlay . '" id="' . $uniqueId . '-resume" class="carousel-button  carousel-play ' . $cssClassPlay . '" />';
-    $output .= '<button value="prev" aria-label="previous" id="' . $uniqueId . '-previous" class="carousel-button  carousel-previous">Previous</button>';
-    $output .= '<button value="next" id="' . $uniqueId . '-next" aria-label="next" class="carousel-button  carousel-next">Next</button>';
+    $output .= '<input type="button" value="Previous" aria-label="previous" id="' . $uniqueId . '-previous" class="carousel-button  carousel-previous" />';
+    $output .= '<input type="button" value="Next" id="' . $uniqueId . '-next" aria-label="next" class="carousel-button  carousel-next" />';
     $output .= '</fieldset>';
     $output .= '</section>';
 

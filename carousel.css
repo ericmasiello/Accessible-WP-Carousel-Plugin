@@ -40,6 +40,11 @@
 	max-width: 100%;
 }
 
+.carousel-container p {
+
+	margin: 0;
+}
+
 .carousel-button {
 
 	border: .1rem solid #ccc;
